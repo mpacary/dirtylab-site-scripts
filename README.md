@@ -1,6 +1,6 @@
 # dirtylab-site-scripts
 
-Ce repository contient les scripts bash et templates [Liquid](https://github.com/Shopify/liquid/wiki) ([Jekyll](jekyllrb.com)) permettant d'automatiser la publication des fichiers **.MD** du dépôt [sveinburne/letsplayscience](https://github.com/sveinburne/lets-play-science) vers le site statique [dirtylab.github.io](http://dirtylab.github.io)
+Ce repository contient les **scripts bash** et **templates [Liquid](https://github.com/Shopify/liquid/wiki)** ([Jekyll](jekyllrb.com)) permettant d'automatiser la publication des fichiers **.MD** du dépôt [sveinburne/letsplayscience](https://github.com/sveinburne/lets-play-science) vers le site statique [dirtylab.github.io](http://dirtylab.github.io)
 
 A lancer dans un répertoire comportant en sous-dossier les repos **lets-play-science** et **dirtylab.github.io**.
 
