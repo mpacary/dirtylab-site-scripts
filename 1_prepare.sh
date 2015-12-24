@@ -11,12 +11,13 @@ ORIG_REPO_URL="https://github.com/sveinburne/lets-play-science"
 ORIG_DIR="lets-play-science"
 TMP_DIR="tmp_site"
 TEMPLATES_DIR="jekyll-stuff"
+JEKYLL_INCLUDES_DIR="_includes"
 
 
 echo "*** Clean/refresh directories"
 
 if [ ! -d "$ORIG_DIR" ]; then
-  echo "*** Create $DEST_DIR directory"
+  echo "*** Create $DEST_DIR directory from $ORIG_REPO_URL"
   git clone $ORIG_REPO_URL
 else
   cd $ORIG_DIR
@@ -40,28 +41,48 @@ cd $TMP_DIR
 rm -rf .git
 
 
-echo "*** Convert .MD files content (GitHub Flavored Markdown) to HTML"
+echo "*** Copy .MD files to $JEKYLL_INCLUDES_DIR, recursively"
 
-FILES=$(find . -type f -name '*.MD')
-for f in $FILES
+mkdir $JEKYLL_INCLUDES_DIR
+
+# required to handle spaces in filenames
+OLDIFS=$IFS
+IFS=$'\n'
+
+for f in `find . -type f -name '*.MD'`
 do
-  echo "- Processing file $f"
-  echo "Conversion"
-  grip $f --export $f
+  # Links fixing
+  sed -i.bak -e 's/\([A-Za-z0-9.\-_]\{1,\}\)\.MD/\1.html/g' $f
 
-  echo "Links fixing"
-  sed -i.bak -e 's/\([A-Za-z0-9\-_]\{1,\}\)\.MD/\1.html/g' -e 's/href="#/href="#user-content-/g' -e 's/\.html#/.html#user-content-/g' $f
+  # copy with directory structure preservation
+  mkdir -p `dirname "$JEKYLL_INCLUDES_DIR/$f"`
+  cp "$f" "$JEKYLL_INCLUDES_DIR/$f"
 done
 
+# clean .bak files created by sed
 rm -rf *.bak
 
-echo "*** Rename .MD files to .html"
-find . -iname "*.MD" -exec rename .MD .html '{}' \;
+echo "*** Create one .html file per .MD file, with appropriate 'Front Matter' content"
 
-cd ..
+for f in `find . -type f -name '*.MD' -not -path "./$JEKYLL_INCLUDES_DIR/*"`
+do
+  NEW_FILENAME="${f%.MD}.html"
+  mv "$f" "$NEW_FILENAME"
+
+  CONTENT=$'---\n'
+  CONTENT+=$'layout: convert_md_to_html\n'
+  CONTENT+="markdown_file: ${f:2}" # strip './' at the beginning of the filename, otherwise Jekyll crashes !
+  CONTENT+=$'\n---\n'
+  echo "$CONTENT" > "$NEW_FILENAME"
+done
+
+IFS=$OLDIFS
+
 
 
 echo "*** Retrieve templates"
 
-cp -r $TEMPLATES_DIR/* $TMP_DIR
+cp -r ../$TEMPLATES_DIR/* .
 
+
+cd ..
