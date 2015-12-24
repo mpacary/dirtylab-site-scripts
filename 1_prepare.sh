@@ -12,6 +12,7 @@ ORIG_DIR="lets-play-science"
 TMP_DIR="tmp_site"
 TEMPLATES_DIR="jekyll-stuff"
 JEKYLL_INCLUDES_DIR="_includes"
+JEKYLL_BUILD_DIR="_site"
 
 
 echo "*** Clean/refresh directories"
@@ -64,7 +65,9 @@ rm -rf *.bak
 
 echo "*** Create one .html file per .MD file, with appropriate 'Front Matter' content"
 
-for f in `find . -type f -name '*.MD' -not -path "./$JEKYLL_INCLUDES_DIR/*"`
+STR_NAV=$'\n\nfiles:\n'
+
+for f in `find . -type f -name '*.MD' -not -path "./$JEKYLL_INCLUDES_DIR/*" -not -path "./$JEKYLL_BUILD_DIR/*"`
 do
   NEW_FILENAME="${f%.MD}.html"
   mv "$f" "$NEW_FILENAME"
@@ -74,6 +77,9 @@ do
   CONTENT+="markdown_file: ${f:2}" # strip './' at the beginning of the filename, otherwise Jekyll crashes !
   CONTENT+=$'\n---\n'
   echo "$CONTENT" > "$NEW_FILENAME"
+
+  STR_NAV+="- ${NEW_FILENAME:2:-5}" # remove './'' at the beginning + .html extension
+  STR_NAV+=$'\n'
 done
 
 IFS=$OLDIFS
@@ -83,6 +89,13 @@ IFS=$OLDIFS
 echo "*** Retrieve templates"
 
 cp -r ../$TEMPLATES_DIR/* .
+
+mv _config.yml.sample _config.yml
+
+
+echo "*** Add navigation array to _config.yml"
+
+echo "$STR_NAV" >> _config.yml
 
 
 cd ..

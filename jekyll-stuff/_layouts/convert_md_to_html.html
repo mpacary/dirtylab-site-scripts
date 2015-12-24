@@ -8,17 +8,26 @@
 </head>
 <body>
 
-  <h1>Conversion layout</h1>
+  <div id="header">
+    <h1>DirtyLab</h1>
+    <p>Le laboratoire des savoirs émergents</p>
+  </div>
 
   <div id="main">
 
-    {% comment %}
-      Jekyll does not allows simply {% include {{page.markdown_file }} %}
-      See http://stackoverflow.com/questions/7226076/in-jekyll-is-there-a-concise-way-to-render-a-markdown-partial
-    {% endcomment %}
+    {% include nav.html %}
 
-    {% capture md_content %}{% include {{page.markdown_file}} %}{% endcapture %}
-    {{md_content | markdownify}}
+    <div id="content">
+
+      {% comment %}
+        Jekyll does not allows simply {% include {{page.markdown_file }} %}
+        See http://stackoverflow.com/questions/7226076/in-jekyll-is-there-a-concise-way-to-render-a-markdown-partial
+      {% endcomment %}
+
+      {% capture md_content %}{% include {{page.markdown_file}} %}{% endcapture %}
+      {{md_content | markdownify}}
+
+    </div>
 
   </div>
 </body>
