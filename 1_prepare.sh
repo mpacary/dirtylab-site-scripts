@@ -60,8 +60,10 @@ do
   cp "$f" "$JEKYLL_INCLUDES_DIR/$f"
 done
 
-# clean .bak files created by sed
-rm -rf *.bak
+# clean .bak files created by sed.
+# note that rm -rf *.bak only remove files from current directory, not subdirs
+# see http://unix.stackexchange.com/questions/116389
+find . -type f -name '*.bak' -delete
 
 echo "*** Create one .html file per .MD file, with appropriate 'Front Matter' content"
 
@@ -90,8 +92,11 @@ echo "*** Retrieve templates"
 
 cp -r ../$TEMPLATES_DIR/* .
 
-mv _config.yml.sample _config.yml
-
+if [ "$1" = "--prod" ]; then
+  mv _config.yml.prod _config.yml
+else
+  mv _config.yml.local _config.yml
+fi
 
 echo "*** Add navigation array to _config.yml"
 

@@ -5,7 +5,6 @@
 # @desc push changes made by 1_process.sh to 'dirtylab.github.io' repo
 
 TMP_DIR="tmp_site"
-TEMPLATES_DIR="jekyll-stuff"
 
 DEST_REPO="https://github.com/dirtylab/dirtylab.github.io"
 DEST_DIR="dirtylab.github.io"
