@@ -1,5 +1,8 @@
 <?php
 
+// inspired from https://github.com/carpedm20/emoji
+// converts emoji codes such as :smile: int to their <img src="xxxx.png"> equivalent on GitHub CDN
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -29,7 +32,7 @@ $content = file_get_contents($file_to_convert);
 
 $content = preg_replace_callback('/:([a-zA-Z0-9\+\-_&.ô’Åéãíç]+):/', function ($match) {
       global $g_emoji_unicode;
-      
+
       $str_code = $match[1];
 
       if (!isset($g_emoji_unicode[$str_code]))
