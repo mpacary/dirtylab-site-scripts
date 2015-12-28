@@ -10,6 +10,7 @@ On doit donc avoir dans un dossier à part :
 - /dirtylab.github.io
 - /jekyll-stuff
 - /lets-play-science
+- /php_emojize
 - 1_process.sh
 - 2_push.sh
 ```
