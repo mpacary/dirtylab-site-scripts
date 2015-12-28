@@ -5,7 +5,7 @@
 # @desc Processes .MD files from https://github.com/sveinburne/lets-play-science
 #       to get .html files then upload them to https://github.com/dirtylab/dirtylab.github.io
 
-# uses grip utility from https://github.com/joeyespo/grip
+# requires PHP 5+ to be installed on the system
 
 ORIG_REPO_URL="https://github.com/sveinburne/lets-play-science"
 ORIG_DIR="lets-play-science"
@@ -42,7 +42,7 @@ cd $TMP_DIR
 rm -rf .git
 
 
-echo "*** Copy .MD files to $JEKYLL_INCLUDES_DIR, recursively"
+echo "*** Copy .MD files to $JEKYLL_INCLUDES_DIR recursively + fix links and emoji"
 
 mkdir $JEKYLL_INCLUDES_DIR
 
@@ -54,6 +54,9 @@ for f in `find . -type f -name '*.MD'`
 do
   # Links fixing
   sed -i.bak -e 's/\([A-Za-z0-9.\-_]\{1,\}\)\.MD/\1.html/g' $f
+
+  # Emoji conversion
+  php ../php_emojize/emojize.php $f
 
   # copy with directory structure preservation
   mkdir -p `dirname "$JEKYLL_INCLUDES_DIR/$f"`
