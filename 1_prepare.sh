@@ -42,6 +42,11 @@ cd $TMP_DIR
 rm -rf .git
 
 
+echo '*** Remove <a name="hi"></a> anchor at top of README.MD to avoid a CSS issue'
+
+sed -i.bak -e 's/<a name="hi"><\/a>//g' README.MD
+
+
 echo "*** Copy .MD files to $JEKYLL_INCLUDES_DIR recursively + fix links and emoji"
 
 mkdir $JEKYLL_INCLUDES_DIR
