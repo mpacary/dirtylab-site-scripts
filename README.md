@@ -2,7 +2,7 @@
 
 Ce repository contient les **scripts bash** et **templates [Liquid](https://github.com/Shopify/liquid/wiki)** ([Jekyll](jekyllrb.com)) permettant d'automatiser la publication des fichiers **.MD** du dépôt [sveinburne/letsplayscience](https://github.com/sveinburne/lets-play-science) vers le site statique [dirtylab.github.io](http://dirtylab.github.io) (issu du repo [dirtylab/dirtylab.github.io](https://github.com/dirtylab/dirtylab.github.io) à l'aide de la mécanique [GitHub pages](https://pages.github.com/))
 
-A lancer dans un répertoire comportant en sous-dossier les repos **lets-play-science**, **dirtylab.github.io**, et le dossier **[jekyll-stuff](jekyll-stuff)** de ce repo.
+A lancer dans un répertoire comportant en sous-dossier les repos **lets-play-science**, **dirtylab.github.io**, et les dossiers **[php_emojize](php_emojize)** et **[jekyll-stuff](jekyll-stuff)** de ce repo.
 
 On doit donc avoir dans un dossier à part :
 
