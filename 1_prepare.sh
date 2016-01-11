@@ -55,7 +55,7 @@ mkdir $JEKYLL_INCLUDES_DIR
 OLDIFS=$IFS
 IFS=$'\n'
 
-for f in `find . -type f -name '*.MD'`
+for f in `find . -type f -regextype sed -regex ".*/.*\.\(MD\|md\)"`
 do
   # Links fixing
   sed -i.bak -e 's/\([A-Za-z0-9.\-_]\{1,\}\)\.MD/\1.html/g' $f
@@ -77,9 +77,14 @@ echo "*** Create one .html file per .MD file, with appropriate 'Front Matter' co
 
 STR_NAV=$'\n\nfiles:\n'
 
-for f in `find . -type f -name '*.MD' -not -path "./$JEKYLL_INCLUDES_DIR/*" -not -path "./$JEKYLL_BUILD_DIR/*"`
+for f in `find . -type f -regextype sed -regex ".*/.*\.\(MD\|md\)" -not -path "./$JEKYLL_INCLUDES_DIR/*" -not -path "./$JEKYLL_BUILD_DIR/*"`
 do
-  NEW_FILENAME="${f%.MD}.html"
+  if [[ "$f" == *MD ]]; then
+    NEW_FILENAME="${f%.MD}.html"
+  else
+    NEW_FILENAME="${f%.md}.html"
+  fi
+  
   mv "$f" "$NEW_FILENAME"
 
   CONTENT=$'---\n'
